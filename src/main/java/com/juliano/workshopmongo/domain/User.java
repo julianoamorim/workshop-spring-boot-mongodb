@@ -1,11 +1,16 @@
 package com.juliano.workshopmongo.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Document(collection = "user") //Classe que representa uma colecao do MongoDB
 public class User implements Serializable {
     private static final long serialVersionUID = 1L; //permite q o objeto seja convertido em byte e trafegado em rede
 
+    @Id
     private String id;
     private String nome;
     private String email;
