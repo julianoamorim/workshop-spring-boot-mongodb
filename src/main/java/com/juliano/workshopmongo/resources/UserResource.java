@@ -6,11 +6,10 @@ import com.juliano.workshopmongo.dto.UserDTO;
 import com.juliano.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,5 +31,13 @@ public class UserResource {
     public ResponseEntity<UserDTO> buscarId(@PathVariable String id){ //id sera passado pela URL
         User obj = service.buscarId(id);
         return ResponseEntity.ok().body(new UserDTO(obj)); //ResponseEntity: retorna o objeto como resposta HTTP apropriada p/ web
+    }
+
+    @RequestMapping(method=RequestMethod.POST)
+    public ResponseEntity<Void> inserir(@RequestBody UserDTO objDto){
+        User obj = service.fromDTO(objDto); //converte dto p user
+        obj = service.inserir(obj); //metodo p inserir o usuario
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri(); //codigo apresentado do nada (?)
+        return ResponseEntity.created(uri).build(); //Retorna o cod 201 e cabecalho e localizacao do recurso
     }
 }

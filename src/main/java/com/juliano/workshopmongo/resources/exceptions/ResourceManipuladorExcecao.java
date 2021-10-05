@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 
-@ControllerAdvice
+@ControllerAdvice //Classe responsavel por tratar erros nas requisicoes
 public class ResourceManipuladorExcecao {
 
     @ExceptionHandler(ObjetoNaoEncontradoExcecao.class)
