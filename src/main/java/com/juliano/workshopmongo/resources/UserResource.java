@@ -40,4 +40,10 @@ public class UserResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri(); //codigo apresentado do nada (?)
         return ResponseEntity.created(uri).build(); //Retorna o cod 201 e cabecalho e localizacao do recurso
     }
+
+    @RequestMapping(value = "/{id}", method=RequestMethod.DELETE)//indica que o metodo sera retornado no acesso /users
+    public ResponseEntity<UserDTO> deletar(@PathVariable String id){ //id sera passado pela URL
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }

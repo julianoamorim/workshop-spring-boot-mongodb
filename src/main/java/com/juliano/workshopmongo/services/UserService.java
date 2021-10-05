@@ -28,6 +28,12 @@ public class UserService {
     public User inserir(User obj){
         return repo.insert(obj);
     }
+
+    public void deletar(String id){
+        buscarId(id); //caso nao encontre lanca a excecao
+        repo.deleteById(id);
+    }
+
     //tem acesso ao banco de dados direto na classe
     public  User fromDTO(UserDTO objDto){
         return new User(objDto.getId(), objDto.getNome(), objDto.getEmail());
