@@ -1,6 +1,7 @@
 package com.juliano.workshopmongo.resources;
 
 
+import com.juliano.workshopmongo.domain.Post;
 import com.juliano.workshopmongo.domain.User;
 import com.juliano.workshopmongo.dto.UserDTO;
 import com.juliano.workshopmongo.services.UserService;
@@ -54,5 +55,11 @@ public class UserResource {
         obj = service.atualizar(obj); //metodo p inserir o usuario
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri(); //codigo apresentado do nada (?)
         return ResponseEntity.created(uri).build(); //Retorna o cod 201 e cabecalho e localizacao do recurso
+    }
+
+    @RequestMapping(value = "/{id}/posts", method=RequestMethod.GET)//Retorna a lista de Posts associada com o usuario
+    public ResponseEntity<List<Post>> buscarPosts(@PathVariable String id){ //id sera passado pela URL
+        User obj = service.buscarId(id);
+        return ResponseEntity.ok().body(obj.getPosts()); //ResponseEntity: retorna o objeto como resposta HTTP apropriada p/ web
     }
 }

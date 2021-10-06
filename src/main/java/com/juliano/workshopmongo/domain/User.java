@@ -17,6 +17,7 @@ public class User implements Serializable {
     private String id;
     private String nome;
     private String email;
+    // DBRef: referencia a tabela de posts dentro da de usuarios pelo Id
     @DBRef(lazy = true) // "posts" sera apenas carregado se ele for chamado explicitamente, ao chamar o Usuario ele nao vem junto por padrao
     private List<Post> posts = new ArrayList<>();
 
