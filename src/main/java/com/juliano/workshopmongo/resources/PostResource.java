@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -27,6 +28,17 @@ public class PostResource {
     public ResponseEntity<List<Post>> buscarTitulo(@RequestParam(value = "text", defaultValue = "") String text){
         text = URL.decodedParam(text); //decodifica o texto
         List<Post> list = service.findByTitle(text);
+        return ResponseEntity.ok().body(list); //ResponseEntity: retorna o objeto como resposta HTTP apropriada p/ web
+    }
+
+    @RequestMapping(value = "/fullsearch", method=RequestMethod.GET)//consulta ao Banco de Dados pela URL
+    public ResponseEntity<List<Post>> buscarTitulo(@RequestParam(value = "text", defaultValue = "") String text,
+                                                   @RequestParam(value = "minDate", defaultValue = "") String minDate,
+                                                   @RequestParam(value = "maxDate", defaultValue = "") String maxDate){
+        text = URL.decodedParam(text); //decodifica o texto
+        Date min = URL.convertDate(minDate, new Date(0L)); //caso nao consiga pegar a data atribui um valor padrao, 01/01/1970
+        Date max = URL.convertDate(maxDate, new Date()); //caso nao cosiga pegar a data pega a hora atual do sistema
+        List<Post> list = service.buscaCompleta(text, min, max);
         return ResponseEntity.ok().body(list); //ResponseEntity: retorna o objeto como resposta HTTP apropriada p/ web
     }
 
